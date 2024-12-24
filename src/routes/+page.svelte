@@ -2,61 +2,12 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { persisted } from "svelte-persisted-store";
-
-
-    type Cell = {
-        id: number;
-        text: string;
-        highlighted: boolean;
-    };
-
-
-    const stuffdadsays: string[] = [
-        "Ja cie kocham",
-        "I've got din",
-        "Ears ringing",
-        "Smell ya later",
-        "I can clearly see your nuts",
-        "Damnit anyway",
-        "Mind over matter",
-        "It's a chemical world",
-        "Cherish your health",
-        "Aliens",
-        "Do you need mouth to mouth",
-        "Gold",
-        "Love yous",
-        "Oh boy",
-        "Shake ya till milk comes out your nose",
-        "Not a sermon just a thought",
-        "My name is Jon but my friend call me Nancy",
-        "No business like show business",
-        "I'm Jon sugar",
-        "Almond juice",
-        "Kissing; that's where babies come from",
-        "Can't find my drone controller",
-        "Taser",
-        "Laser",
-        "Knife",
-        "Tinkle",
-        "Something about the dump",
-        "Diesel truck",
-        // "Nick Still hasn't let me drive his truck",
-        "UFO",
-        "Inap-propriate joke",
-        "Don't touch me",
-        "Don't get old",
-        "Have you seen my back",
-        "My nose is dripping",
-    ];
-
+	import { stuffdadsays, type Cell } from "$lib/index";
 
     const board = persisted<Cell[]>("bingoBoard",[]);
     const bingoMessage= persisted<string>("bingoMessage","");
     const activeCard = persisted<boolean>("activeCard",false);
     const boardsize:number = 4;
-
-
-
 
     const generateBoard = (): void => {
         const selectedPhrases: string[] = [...stuffdadsays].sort(() => 0.5 - Math.random()).slice(0, boardsize ** 2);
@@ -125,6 +76,9 @@
 
     const checkBingo = (): void => {
         let isBingo = false;
+		const currentTime = new Date();
+		const formattedTime = currentTime.toISOString();
+		
         board.update((b) => {
             //check rows
             for (let i=0; i< boardsize; i++) {
@@ -169,8 +123,8 @@
             {#each $board as cell}
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <!-- svelte-ignore a11y-no-static-element-interactions -->
-                <div class="card {cell.highlighted ? 'variant-ghost-primary' : 'variant-ghost'}" on:click={() => toggleHighlight(cell.id)}>
-                        <section class="p-4">{cell.text}</section>
+                <div class="card break-words whitespace-normal {cell.highlighted ? 'variant-ghost-primary' : 'variant-ghost-tertiary'}" on:click={() => toggleHighlight(cell.id)}>
+                        <section class="p-2">{cell.text}</section>
                 </div>
             {/each}
         </div>
