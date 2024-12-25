@@ -41,7 +41,7 @@
         <!-- App Bar -->
         <AppBar>
             <svelte:fragment slot="lead">
-                <strong class="text-xl">Jon-no-H Bingo Board</strong>
+                <strong class="text-xl">Papa/Uncle Jon Bingo Board</strong>
             </svelte:fragment>
             <svelte:fragment slot="trail">
                 <button class="btn btn-sm variant-glass-surface" on:click={changeTheme}>
