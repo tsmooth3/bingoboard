@@ -36,7 +36,7 @@ export const stuffdadsays: string[] = [
     "Need to use the little boys room",
     "Something about the dump",
     "Diesel truck",
-    "Still hasn't let me drive his truck",
+    "Me love you long time",
     "UFO",
     "Inappropriate joke",
     "Don't touch me",
