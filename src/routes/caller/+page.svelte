@@ -6,26 +6,32 @@
     const pickedPhrases = persisted<string[]>('pickedPhrases', []);
 
     function pickPhrase(): void {
-        if (stuffdadsays.length === 0) return;
+        if (stuffdadsays.length === 0 || $pickedPhrases.length === stuffdadsays.length) return;
 
-        const randomIndex = Math.floor(Math.random() * stuffdadsays.length);
-        const pickedPhrase = stuffdadsays.splice(randomIndex, 1)[0];
+        let pickedPhrase: string;
+        do {
+            const randomIndex = Math.floor(Math.random() * stuffdadsays.length);
+            pickedPhrase = stuffdadsays[randomIndex];
+        } while ($pickedPhrases.includes(pickedPhrase));
         pickedPhrases.update((phrases) => [pickedPhrase, ...phrases]);
     }
 
     function clearPhrases(): void {
         pickedPhrases.set([]);
+        pickPhrase();
     }
 
     onMount(() => {
         pickPhrase(); // Pick an initial phrase on mount
     });
+
+    $: isOutOfPhrases = $pickedPhrases.length === stuffdadsays.length;
 </script>
 
 
 <div class="container h-full mx-auto flex justify-center items-center">
     <div class="space-y-10 text-center flex flex-col items-center">
-        <button class="btn btn-xl variant-ghost-primary" on:click={pickPhrase}>Pick a Phrase</button>
+        <button class="btn btn-xl variant-ghost-primary" on:click={pickPhrase} disabled={isOutOfPhrases}>Pick a Phrase</button>
         <div class="space-y-3">
             {#each $pickedPhrases as phrase}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
